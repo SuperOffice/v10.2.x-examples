@@ -43,7 +43,8 @@
           "dependencies": {
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.1, )",
+              "versionCentrallyManaged": true
             },
             "SuperOffice.ContinuousDatabase": {
               "target": "Package",
@@ -67,6 +68,7 @@
             }
           },
           "centralPackageVersions": {
+            "Microsoft.Extensions.Hosting": "[7.0.1, )",
             "SuperOffice.ContinuousDatabase": "[10.2.8.655, )",
             "SuperOffice.NetServer.Core": "[10.2.8.655, )",
             "SuperOffice.NetServer.Services": "[10.2.8.655, )",

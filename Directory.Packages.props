@@ -8,6 +8,6 @@
     <PackageVersion Include="SuperOffice.NetServer.Core" Version="10.2.8.655" />
     <PackageVersion Include="SuperOffice.NetServer.Services" Version="10.2.8.655" />
     <PackageVersion Include="SuperOffice.SystemUser.Client" Version="1.0.4" />
-    <!--<PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />-->
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
   </ItemGroup>
 </Project>
