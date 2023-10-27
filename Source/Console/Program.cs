@@ -26,19 +26,6 @@ internal class Program
     await MyFunction();
   }
 
-  private static SystemUserInfo GetSystemUserInfo()
-  {
-    var sysUser = new SystemUserInfo
-    {
-      ClientSecret = _clientSecret,
-      ContextIdentifier = _contextIdentifier,
-      SubDomain = _subDomain,
-      SystemUserToken = _systemUserToken,
-      PrivateKey = _privateKey
-    };
-    return sysUser;
-  }
-
   private static void ConfigureServices(IServiceCollection services)
   {
     services.AddNetServerCore<ThreadContextProvider>();
@@ -81,5 +68,17 @@ internal class Program
     {
       Console.WriteLine("Token is invalid");
     }
+  }
+  private static SystemUserInfo GetSystemUserInfo()
+  {
+    var sysUser = new SystemUserInfo
+    {
+      ClientSecret = _clientSecret,
+      ContextIdentifier = _contextIdentifier,
+      SubDomain = _subDomain,
+      SystemUserToken = _systemUserToken,
+      PrivateKey = _privateKey
+    };
+    return sysUser;
   }
 }
