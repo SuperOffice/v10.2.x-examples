@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <SuperOfficeNetServerCoreVersion>10.2.8.655</SuperOfficeNetServerCoreVersion>
+  </PropertyGroup>
+</Project>
