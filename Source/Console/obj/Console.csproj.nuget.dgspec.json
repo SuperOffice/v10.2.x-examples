@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\Console.csproj": {}
+  },
+  "projects": {
+    "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\Console.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\Console.csproj",
+        "projectName": "Console",
+        "projectPath": "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\Console.csproj",
+        "packagesPath": "C:\\Users\\eivind.fasting\\.nuget\\packages\\",
+        "outputPath": "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\eivind.fasting\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "SuperOffice.ContinuousDatabase": {
+              "target": "Package",
+              "version": "[10.2.8.655, )"
+            },
+            "SuperOffice.NetServer.Core": {
+              "target": "Package",
+              "version": "[10.2.8.655, )"
+            },
+            "SuperOffice.NetServer.Services": {
+              "target": "Package",
+              "version": "[10.2.8.655, )"
+            },
+            "SuperOffice.SystemUser.Client": {
+              "target": "Package",
+              "version": "[1.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
