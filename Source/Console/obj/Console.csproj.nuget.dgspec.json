@@ -13,6 +13,7 @@
         "packagesPath": "C:\\Users\\eivind.fasting\\.nuget\\packages\\",
         "outputPath": "C:\\Github\\SuperOffice\\Examples\\v10.2.x-examples\\Source\\Console\\obj\\",
         "projectStyle": "PackageReference",
+        "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
           "C:\\Users\\eivind.fasting\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -46,20 +47,30 @@
             },
             "SuperOffice.ContinuousDatabase": {
               "target": "Package",
-              "version": "[10.2.8.655, )"
+              "version": "[10.2.8.655, )",
+              "versionCentrallyManaged": true
             },
             "SuperOffice.NetServer.Core": {
               "target": "Package",
-              "version": "[10.2.8.655, )"
+              "version": "[10.2.8.655, )",
+              "versionCentrallyManaged": true
             },
             "SuperOffice.NetServer.Services": {
               "target": "Package",
-              "version": "[10.2.8.655, )"
+              "version": "[10.2.8.655, )",
+              "versionCentrallyManaged": true
             },
             "SuperOffice.SystemUser.Client": {
               "target": "Package",
-              "version": "[1.0.4, )"
+              "version": "[1.0.4, )",
+              "versionCentrallyManaged": true
             }
+          },
+          "centralPackageVersions": {
+            "SuperOffice.ContinuousDatabase": "[10.2.8.655, )",
+            "SuperOffice.NetServer.Core": "[10.2.8.655, )",
+            "SuperOffice.NetServer.Services": "[10.2.8.655, )",
+            "SuperOffice.SystemUser.Client": "[1.0.4, )"
           },
           "imports": [
             "net461",
