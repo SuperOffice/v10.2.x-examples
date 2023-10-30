@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SuperOffice.Security.Principal;
 
-namespace NativeApp.Console
+namespace NativeAppConsole
 {
     class Program
     {
@@ -29,7 +29,7 @@ namespace NativeApp.Console
             var configuration = hostContext.Configuration;
             var appSettings = configuration.GetSection("ApplicationSettings").Get<AppSettings>();
 
-            services.AddHostedService<App>();
+            services.AddHostedService<AppLogic>();
             services.AddSingleton<SystemBrowser>();
             services.AddSingleton<OidcClient>(sp =>
             {

@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace NativeApp.Console
+namespace NativeAppConsole
 {
     public class SystemBrowser : IBrowser
     {
