@@ -1,139 +1,64 @@
-﻿using IdentityModel.Client;
-using IdentityModel.OidcClient;
-using Newtonsoft.Json.Linq;
-using Serilog;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using IdentityModel.OidcClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SuperOffice.Security.Principal;
 
-namespace ConsoleClientWithBrowser
+namespace NativeApp.Console
 {
-    public class Program
+    class Program
     {
-        static string _authority = "https://sod.superoffice.com";
-        static string _clientId = "";
-        static OidcClient _oidcClient;
-        static HttpClient _apiClient = new HttpClient { BaseAddress = new Uri(_authority) };
-
-        public static void Main(string[] args) => MainAsync().GetAwaiter().GetResult();
-
-        public static async Task MainAsync()
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("+-----------------------+");
-            Console.WriteLine("|  Sign in with OIDC    |");
-            Console.WriteLine("+-----------------------+");
-            Console.WriteLine("");
-            Console.WriteLine("Press any key to sign in...");
-            Console.ReadKey();
-
-            await Login();
+            using var host = CreateHostBuilder(args).Build();
+            var serviceProvider = host.Services;
+            serviceProvider.RegisterWithNetServer();
+            await host.RunAsync();
         }
 
-        private static async Task Login()
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((context, config) =>
         {
-            // create a redirect URI using an available port on the loopback address.
-            // requires the OP to allow random ports on 127.0.0.1 - otherwise set a static port
-            var browser = new SystemBrowser();
-            string redirectUri = string.Format($"http://127.0.0.1:{browser.Port}");
-            
-           var options = new OidcClientOptions
-            {
-                Authority = _authority,
-                ClientId = _clientId,
-                RedirectUri = redirectUri,
-                Scope = "openid profile",
-                FilterClaims = false,
-                Browser = browser,
-                LoadProfile = false
-            };
-
-            var serilog = new LoggerConfiguration()
-                .MinimumLevel.Error()
-                .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
-                .CreateLogger();
-
-            options.LoggerFactory.AddSerilog(serilog);
-
-            _oidcClient = new OidcClient(options);
-
-            var result = await _oidcClient.LoginAsync(new LoginRequest());
-
-            ShowResult(result);
-            await NextSteps(result);
-        }
-
-        private static void ShowResult(LoginResult result)
+            config.SetBasePath(Directory.GetCurrentDirectory())
+                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        })
+        .ConfigureServices((hostContext, services) =>
         {
-            if (result.IsError)
+            var configuration = hostContext.Configuration;
+            var appSettings = configuration.GetSection("ApplicationSettings").Get<AppSettings>();
+
+            services.AddHostedService<App>();
+            services.AddSingleton<SystemBrowser>();
+            services.AddSingleton<OidcClient>(sp =>
             {
-                Console.WriteLine("\n\nError:\n{0}", result.Error);
-                return;
-            }
+                var browser = sp.GetRequiredService<SystemBrowser>();
+                string redirectUri = $"http://127.0.0.1:{browser.Port}";
 
-            Console.WriteLine("\n\nClaims:");
-            foreach (var claim in result.User.Claims)
-            {
-                Console.WriteLine("{0}: {1}", claim.Type, claim.Value);
-            }
-
-            Console.WriteLine($"\nidentity token: {result.IdentityToken}");
-            Console.WriteLine($"access token:   {result.AccessToken}");
-            Console.WriteLine($"refresh token:  {result?.RefreshToken ?? "none"}");
-        }
-
-        private static async Task NextSteps(LoginResult result)
-        {
-            var currentAccessToken = result.AccessToken;
-            var currentRefreshToken = result.RefreshToken;
-
-            var menu = "  x...exit  c...call api   ";
-            if (currentRefreshToken != null) menu += "r...refresh token   ";
-
-            while (true)
-            {
-                Console.WriteLine("\n\n");
-
-                Console.Write(menu);
-                var key = Console.ReadKey();
-
-                if (key.Key == ConsoleKey.X) return;
-                if (key.Key == ConsoleKey.C) await CallApi(currentAccessToken);
-                if (key.Key == ConsoleKey.R)
+                var options = new OidcClientOptions
                 {
-                    var refreshResult = await _oidcClient.RefreshTokenAsync(currentRefreshToken);
-                    if (refreshResult.IsError)
-                    {
-                        Console.WriteLine($"Error: {refreshResult.Error}");
-                    }
-                    else
-                    {
-                        currentRefreshToken = refreshResult.RefreshToken;
-                        currentAccessToken = refreshResult.AccessToken;
+                    Authority = appSettings.Authority,
+                    ClientId = appSettings.ClientId,
+                    RedirectUri = redirectUri,
+                    Scope = "openid profile",
+                    FilterClaims = false,
+                    Browser = browser,
+                    LoadProfile = false
+                };
 
-                        Console.WriteLine("\n\n");
-                        Console.WriteLine($"access token:   {refreshResult.AccessToken}");
-                        Console.WriteLine($"refresh token:  {refreshResult?.RefreshToken ?? "none"}");
-                    }
-                }
-            }
-        }
+                return new OidcClient(options);
+            });
+            services.AddNetServerCore<ThreadContextProvider>();
+            services.AddServicesProxies();
 
-        private static async Task CallApi(string currentAccessToken)
+            // Add the configuration instance to the DI container
+            services.Configure<AppSettings>(configuration.GetSection("ApplicationSettings"));
+        })
+        .ConfigureLogging(logging =>
         {
-            _apiClient.SetBearerToken(currentAccessToken);
-            var response = await _apiClient.GetAsync("/api/v1/Contact/5");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var json = JArray.Parse(await response.Content.ReadAsStringAsync());
-                Console.WriteLine("\n\n");
-                Console.WriteLine(json);
-            }
-            else
-            {
-                Console.WriteLine($"Error: {response.ReasonPhrase}");
-            }
-        }
+            logging.ClearProviders();
+            logging.AddConsole();
+        });
     }
 }

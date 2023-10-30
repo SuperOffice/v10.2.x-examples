@@ -2,17 +2,13 @@ using IdentityModel.OidcClient.Browser;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace ConsoleClientWithBrowser
+namespace NativeApp.Console
 {
     public class SystemBrowser : IBrowser
     {
@@ -109,7 +105,7 @@ namespace ConsoleClientWithBrowser
 
         public string Url => _url;
 
-        public LoopbackHttpListener(int port, string path = null)
+        public LoopbackHttpListener(int port, string? path = null)
         {
             path = path ?? String.Empty;
             if (path.StartsWith("/")) path = path.Substring(1);
@@ -176,7 +172,7 @@ namespace ConsoleClientWithBrowser
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                System.Console.WriteLine(ex.ToString());
 
                 ctx.Response.StatusCode = 400;
                 ctx.Response.ContentType = "text/html";

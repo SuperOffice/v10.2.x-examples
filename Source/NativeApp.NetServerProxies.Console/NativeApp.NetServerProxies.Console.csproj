@@ -9,10 +9,10 @@
 
   <ItemGroup>
   <FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>
-    	<PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="Serilog.Extensions.Logging" />
-    <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="IdentityModel.OidcClient" />
+    <PackageReference Include="SuperOffice.ContinuousDatabase" />
+    <PackageReference Include="SuperOffice.NetServer.Core" />
+    <PackageReference Include="SuperOffice.NetServer.Services" />
   </ItemGroup>
 
 </Project>
