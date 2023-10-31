@@ -26,9 +26,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Source/NativeApp.NetServerProxies.Console/bin/Debug/net7.0/NativeApp.NetServerProxies.Console.dll",
+            "program": "${workspaceFolder}/Source/NativeApp.Console/bin/Debug/net7.0/NativeApp.Console.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Source/NativeApp.NetServerProxies.Console",
+            "cwd": "${workspaceFolder}/Source/NativeApp.Console",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "externalTerminal",
             "stopAtEntry": false

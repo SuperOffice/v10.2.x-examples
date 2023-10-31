@@ -1,4 +1,5 @@
 Source/**/appsettings.json
+Source/**/.vscode
 [Oo]bj/
 [Bb]in/
 .vs/
