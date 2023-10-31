@@ -36,6 +36,18 @@
                 "${workspaceFolder}/Source/Console/Console.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "buildNativeApp",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Source/NativeApp.Console/NativeApp.Console.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }

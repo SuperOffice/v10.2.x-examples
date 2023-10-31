@@ -150,7 +150,7 @@ namespace NativeAppConsole
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("API response:\n{0}", json);
+                    _logger.LogInformation("API response:\n{Json}", json);
                 }
                 else
                 {

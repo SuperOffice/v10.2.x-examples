@@ -24,7 +24,7 @@
             "name": ".NET Core Launch (NativeApp)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildNativeApp",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Source/NativeApp.Console/bin/Debug/net7.0/NativeApp.Console.dll",
             "args": [],
