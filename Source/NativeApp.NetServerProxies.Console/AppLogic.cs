@@ -20,6 +20,8 @@ namespace NativeAppConsole
         private const string WebApiUrlClaim = "http://schemes.superoffice.net/identity/webapi_url";
         private const string NetServerUrlClaim = "http://schemes.superoffice.net/identity/netserver_url";
         private const string ContextIdentifierClaim = "http://schemes.superoffice.net/identity/ctx";
+
+        //ContactId to fetch from the API or NetServer
         private const int ContactId = 5;
 
         private readonly ILogger<AppLogic> _logger;
@@ -43,8 +45,13 @@ namespace NativeAppConsole
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("App started. Press 'Enter' to sign in...");
-            await Task.Run(() => Console.ReadLine(), cancellationToken);
+            Console.WriteLine("+-----------------------+");
+            Console.WriteLine("|  Sign in with OIDC    |");
+            Console.WriteLine("+-----------------------+");
+            Console.WriteLine("");
+            Console.WriteLine("Press any key to sign in...");
+
+            await Task.Run(() => Console.ReadKey(), cancellationToken);
             await LoginAsync(cancellationToken);
         }
 
@@ -65,6 +72,7 @@ namespace NativeAppConsole
                     return;
                 }
 
+                // Store the tokens and claims for later use
                 _accessToken = result.AccessToken ?? throw new InvalidOperationException("Access token was not received.");
                 _refreshToken = result.RefreshToken;
                 _webapiURI = result.User.FindFirst(WebApiUrlClaim)?.Value ?? throw new InvalidOperationException("Web API URL was not received.");
