@@ -13,9 +13,9 @@ namespace NativeAppConsole
     public class SystemBrowser : IBrowser
     {
         public int Port { get; }
-        private readonly string _path;
+        private readonly string? _path;
 
-        public SystemBrowser(int? port = null, string path = null)
+        public SystemBrowser(int? port = null, string? path = null)
         {
             _path = path;
 
@@ -139,7 +139,8 @@ namespace NativeAppConsole
                 }
                 else if (ctx.Request.Method == "POST")
                 {
-                    if (!ctx.Request.ContentType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
+                    var contentType = ctx.Request.ContentType;
+                    if (contentType == null || !contentType.Equals("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
                     {
                         ctx.Response.StatusCode = 415;
                     }
@@ -159,10 +160,12 @@ namespace NativeAppConsole
             });
         }
 
-        private async Task SetResultAsync(string value, HttpContext ctx)
+        private async Task SetResultAsync(string? value, HttpContext ctx)
         {
             try
             {
+                value ??= string.Empty;
+
                 ctx.Response.StatusCode = 200;
                 ctx.Response.ContentType = "text/html";
                 await ctx.Response.WriteAsync("<h1>You can now return to the application.</h1>");
@@ -172,7 +175,7 @@ namespace NativeAppConsole
             }
             catch(Exception ex)
             {
-                System.Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
 
                 ctx.Response.StatusCode = 400;
                 ctx.Response.ContentType = "text/html";

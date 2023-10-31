@@ -35,11 +35,7 @@ namespace NativeAppConsole
         private static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection services)
         {
             var configuration = hostContext.Configuration;
-            var appSettings = configuration.GetSection("ApplicationSettings").Get<AppSettings>();
-
-            if (appSettings == null)
-                throw new Exception("ApplicationSettings not found in appsettings.json");
-
+            var appSettings = configuration.GetSection("ApplicationSettings").Get<AppSettings>() ?? throw new Exception("ApplicationSettings not found in appsettings.json");
             services.AddHostedService<AppLogic>()
                     .AddSingleton<SystemBrowser>()
                     .AddSingleton(sp => ConfigureOidcClient(sp, appSettings))
