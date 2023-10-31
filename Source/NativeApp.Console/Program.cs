@@ -28,32 +28,38 @@ namespace NativeAppConsole
         {
             var configuration = hostContext.Configuration;
             var appSettings = configuration.GetSection("ApplicationSettings").Get<AppSettings>();
-
-            services.AddHostedService<AppLogic>();
-            services.AddSingleton<SystemBrowser>();
-            services.AddSingleton<OidcClient>(sp =>
+            if (appSettings != null)
             {
-                var browser = sp.GetRequiredService<SystemBrowser>();
-                string redirectUri = $"http://127.0.0.1:{browser.Port}";
-
-                var options = new OidcClientOptions
+                services.AddHostedService<AppLogic>();
+                services.AddSingleton<SystemBrowser>();
+                services.AddSingleton<OidcClient>(sp =>
                 {
-                    Authority = appSettings.Authority,
-                    ClientId = appSettings.ClientId,
-                    RedirectUri = redirectUri,
-                    Scope = "openid profile",
-                    FilterClaims = false,
-                    Browser = browser,
-                    LoadProfile = false
-                };
+                    var browser = sp.GetRequiredService<SystemBrowser>();
+                    string redirectUri = $"http://127.0.0.1:{browser.Port}";
 
-                return new OidcClient(options);
-            });
-            services.AddNetServerCore<ThreadContextProvider>();
-            services.AddServicesProxies();
+                    var options = new OidcClientOptions
+                    {
+                        Authority = $"https://{appSettings.Environment}.superoffice.com",
+                        ClientId = appSettings.ClientId,
+                        RedirectUri = redirectUri,
+                        Scope = "openid profile",
+                        FilterClaims = false,
+                        Browser = browser,
+                        LoadProfile = false
+                    };
 
-            // Add the configuration instance to the DI container
-            services.Configure<AppSettings>(configuration.GetSection("ApplicationSettings"));
+                    return new OidcClient(options);
+                });
+                services.AddNetServerCore<ThreadContextProvider>();
+                services.AddServicesProxies();
+
+                // Add the configuration instance to the DI container
+                services.Configure<AppSettings>(configuration.GetSection("ApplicationSettings"));
+            }
+            else
+            {
+                throw new Exception("ApplicationSettings not found in appsettings.json");
+            }
         })
         .ConfigureLogging(logging =>
         {
