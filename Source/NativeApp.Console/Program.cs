@@ -14,9 +14,10 @@ namespace NativeAppConsole
         {
             using var host = CreateHostBuilder(args).Build();
             
+            //USED BY NETSERVER PROXIES
             var serviceProvider = host.Services;
             serviceProvider.RegisterWithNetServer();
-            
+            //
             await host.RunAsync();
         }
 
@@ -39,8 +40,10 @@ namespace NativeAppConsole
             services.AddHostedService<AppLogic>()
                     .AddSingleton<SystemBrowser>()
                     .AddSingleton(sp => ConfigureOidcClient(sp, appSettings))
+                    //USED BY NETSERVER PROXIES
                     .AddNetServerCore<ThreadContextProvider>()
                     .AddServicesProxies()
+                    //
                     .Configure<AppSettings>(configuration.GetSection("ApplicationSettings"));
         }
 
