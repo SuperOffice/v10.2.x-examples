@@ -101,6 +101,9 @@ namespace NativeAppConsole
             Console.WriteLine("Refresh token:  {0}", result.RefreshToken ?? "none");
         }
 
+        /// <summary>
+        /// Presents options to the user and executes the selected action.
+        /// </summary>
         private async Task NextSteps()
         {
             while (true)
@@ -139,6 +142,9 @@ namespace NativeAppConsole
             }
         }
 
+        /// <summary>
+        /// Handles executing the REST API call.
+        /// </summary>
         private async Task CallRestApiAsync()
         {
             try
@@ -163,6 +169,10 @@ namespace NativeAppConsole
             }
         }
 
+
+        /// <summary>
+        /// Handles executing the NetServer Proxies call.
+        /// </summary>
         private void CallNetServerProxies()
         {
             try
@@ -181,7 +191,7 @@ namespace NativeAppConsole
                 _logger.LogError(ex, "Exception during authentication for customer {ContextIdentifier}", _contextIdentifier);
             }
         }
-
+        
         private async Task RefreshTokenAsync()
         {
             if (string.IsNullOrEmpty(_refreshToken))
